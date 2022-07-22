@@ -16,9 +16,17 @@ public class OrderServiceImpl implements OrderService {
 
     //    private final DiscountPolicy discountPolicy = new FixDiscountPolicy(); // final은 무조건 값이 할당되어야 함.
 //    private final DiscountPolicy discountPolicy = new RateDiscountPolicy(); // -> 이런 식으로 하면 OCP, DIP 위반. 배우가 상대 배우 지정하는 꼴.
-    @Autowired private DiscountPolicy discountPolicy; // private일 때도 의존성 주입 - 필드 주입 됨. 그런데 외부 변경 불가능해서 권장되지 않음.
+    @Autowired private DiscountPolicy discountPolicy; // private일 때도 의존성 주입 - 필드 주입 됨. 그런데 외부 변경 불가능해서 권장되지 않음. 테스트할 때도 어려움.
 
-//    @Autowired // 의존 관계 주입 - 수정자 주입. 선택, 변경 가능성 있는 경우 사용. 선택적인 경우 @Autowired(required=false)로 설정
+    public void setDiscountPolicy(DiscountPolicy discountPolicy) {
+        this.discountPolicy = discountPolicy;
+    }
+
+    public void setMemberRepository(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
+
+    //    @Autowired // 의존 관계 주입 - 수정자 주입. 선택, 변경 가능성 있는 경우 사용. 선택적인 경우 @Autowired(required=false)로 설정
 //    public void setMemberRepository(MemberRepository memberRepository) {
 //        this.memberRepository = memberRepository;
 //    }
