@@ -18,7 +18,7 @@ public class OrderServiceImpl implements OrderService {
 //    private final DiscountPolicy discountPolicy = new RateDiscountPolicy(); // -> 이런 식으로 하면 OCP, DIP 위반. 배우가 상대 배우 지정하는 꼴.
     private DiscountPolicy discountPolicy;
 
-    @Autowired // 의존 관계 주입 - 수정자 주입
+    @Autowired // 의존 관계 주입 - 수정자 주입. 선택, 변경 가능성 있는 경우 사용. 선택적인 경우 @Autowired(required=false)로 설정
     public void setMemberRepository(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderService {
         this.discountPolicy = discountPolicy;
     }
 //
-//    @Autowired // 의존 관계 주입 - 생성자 주입
+//    @Autowired // 의존 관계 주입 - 생성자 주입. 불변, 필수인 경우 사용
 //   public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
 //        this.memberRepository = memberRepository;
 //        this.discountPolicy = discountPolicy;
