@@ -11,25 +11,18 @@ import org.springframework.stereotype.Component;
 public class OrderServiceImpl implements OrderService {
 
 
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository; // final 키워드 있으면 여기서 바로 값 넣어주거나 생성자에서만 값 넣어줄 수 있음!
 
 
     //    private final DiscountPolicy discountPolicy = new FixDiscountPolicy(); // final은 무조건 값이 할당되어야 함.
     //    private final DiscountPolicy discountPolicy = new RateDiscountPolicy(); // -> 이런 식으로 하면 OCP, DIP 위반. 배우가 상대 배우 지정하는 꼴.
-    private DiscountPolicy discountPolicy; // private일 때도 의존성 주입 - 필드 주입 됨. 그런데 외부 변경 불가능해서 권장되지 않음. 테스트할 때도 어려움.
+    private final DiscountPolicy discountPolicy; // private일 때도 의존성 주입 - 필드 주입 됨. 그런데 외부 변경 불가능해서 권장되지 않음. 테스트할 때도 어려움.
 
     @Autowired // 의존 관계 주입 - 생성자 주입. 불변, 필수인 경우 사용
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
-
-    @Autowired // 의존 관계 주입 - 일반 메소드 주입. 일반적으로 잘 사용 안 함. 생성자 주입이랑 수정자 주입 안에서 다 할 수 있음.
-    public void init(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
-        this.memberRepository = memberRepository;
-        this.discountPolicy = discountPolicy;
-    }
-
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
