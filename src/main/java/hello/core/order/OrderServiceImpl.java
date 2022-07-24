@@ -18,7 +18,6 @@ public class OrderServiceImpl implements OrderService {
     //    private final DiscountPolicy discountPolicy = new RateDiscountPolicy(); // -> 이런 식으로 하면 OCP, DIP 위반. 배우가 상대 배우 지정하는 꼴.
     private final DiscountPolicy discountPolicy; // private일 때도 의존성 주입 - 필드 주입 됨. 그런데 외부 변경 불가능해서 권장되지 않음. 테스트할 때도 어려움.
 
-    @Autowired // 의존 관계 주입 - 생성자 주입. 불변, 필수인 경우 사용
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
