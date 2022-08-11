@@ -2,6 +2,7 @@ package hello.core.web;
 
 import hello.core.common.MyLogger;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,15 +13,17 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class LogDemoController {
     private final LogDemoService logDemoService;
-    private final MyLogger myLogger; // 스프링 컨테이너 뜨는 시점에 의존 관계 주입할텐데 얘는 request 스코프이기 때문에 고객 요청 아직 없으니 오류 발생!
+    private final ObjectProvider<MyLogger> myLoggerProvider; // MyLogger 대신 MyLogger를 찾을 수 있는(DL 할 수 있는) provider가 주입!!!
 
     @RequestMapping("log-demo")
     @ResponseBody
-    public String logDemo(HttpServletRequest request) {
+    public String logDemo(HttpServletRequest request) throws InterruptedException {
         String requestURL = request.getRequestURL().toString();
+        MyLogger myLogger = myLoggerProvider.getObject();
         myLogger.setRequestURL(requestURL);
 
         myLogger.log("controller test");
+//        Thread.sleep(1000);
         logDemoService.logic("testId");
         return "OK";
     }
