@@ -13,17 +13,18 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class LogDemoController {
     private final LogDemoService logDemoService;
-    private final ObjectProvider<MyLogger> myLoggerProvider; // MyLogger 대신 MyLogger를 찾을 수 있는(DL 할 수 있는) provider가 주입!!!
+    private final MyLogger myLogger;
 
     @RequestMapping("log-demo")
     @ResponseBody
     public String logDemo(HttpServletRequest request) throws InterruptedException {
         String requestURL = request.getRequestURL().toString();
-        MyLogger myLogger = myLoggerProvider.getObject();
+
+        System.out.println("myLogger = " + myLogger.getClass());
         myLogger.setRequestURL(requestURL);
 
         myLogger.log("controller test");
-//        Thread.sleep(1000);
+        Thread.sleep(1000);
         logDemoService.logic("testId");
         return "OK";
     }
